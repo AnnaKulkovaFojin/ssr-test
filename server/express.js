@@ -24,8 +24,6 @@ app.use('*', (_req, res) => {
   );
   const appHTML = renderToString(<App />);
 
-  console.log(appHTML);
-
   const fullHTML = indexHTML.replace(
     '<div id="app"></div>',
     `<div id="app">${appHTML}</div>`
