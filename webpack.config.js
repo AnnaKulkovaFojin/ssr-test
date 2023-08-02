@@ -5,10 +5,12 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   // режим webpack оптимизации
-  mode: 'development' === process.env.NODE_ENV ? 'development' : 'production',
+  mode: process.env.NODE_ENV === 'development' ? 'development' : 'production',
   // начальные файлы
   entry: [
-    './src/index.js', // react
+    process.env.NODE_ENV === 'development'
+      ? './src/index.dev.js'
+      : './src/index.prod.js',
   ],
   // выходные файлы и чанки
   output: {
