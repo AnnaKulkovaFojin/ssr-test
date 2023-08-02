@@ -12,10 +12,6 @@ const router = createBrowserRouter([
     element: <CatsList />,
   },
   {
-    path: 'cat-fact',
-    element: <CatFact />,
-  },
-  {
     path: 'cat-fact/:catId',
     element: <CatFact />,
   },
