@@ -17,7 +17,7 @@ export default function App() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="main">
       <h1>Kotiki</h1>
       <div className="grid">
         {catsImages.map((cat) => (
