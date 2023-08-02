@@ -9,6 +9,8 @@
 
 .cat-card > img {
   margin-bottom: 30px;
+  max-width: 300px;
+  height: auto;
 }
 
 .cat-card > p {

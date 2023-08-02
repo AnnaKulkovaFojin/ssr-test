@@ -1,33 +1,9 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
+import { useLoaderData } from 'react-router-dom';
 import './cat-facts.css';
-import { useParams } from 'react-router-dom';
 
 export default function CatFact() {
-  const { catId } = useParams();
-  const [catImage, setCatImage] = useState();
-  const [catFact, setCatFact] = useState();
-
-  const getCatImage = useCallback(async () => {
-    const catImgResponse = await fetch(
-      `https://api.thecatapi.com/v1/images/${catId}`
-    );
-    const catImage = await catImgResponse.json();
-    setCatImage(catImage.url);
-  }, [catId]);
-
-  const getCatFact = useCallback(async () => {
-    const catFactResponse = await fetch(
-      'https://meowfacts.herokuapp.com?lang=rus-ru'
-    );
-    const catFact = await catFactResponse.json();
-    setCatFact(catFact.data);
-  }, []);
-
-  useEffect(() => {
-    getCatFact();
-    getCatImage();
-  }, [getCatImage, getCatFact]);
-
+  const { catFact, catImage } = useLoaderData();
   return (
     <div className="cat-facts-container">
       <h1>Рандомный котячий факт</h1>

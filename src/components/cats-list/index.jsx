@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link, useLoaderData } from 'react-router-dom';
 import './cats-list.css';
-import { Link } from 'react-router-dom';
 
 export default function CatsList() {
-  const [catsImages, setCatsImages] = useState([]);
-
-  const getCatImages = async () => {
-    const response = await fetch(
-      'https://api.thecatapi.com/v1/images/search?limit=9'
-    );
-    const catsResponse = await response.json();
-    setCatsImages(catsResponse.slice(0, 9));
-  };
-
-  useEffect(() => {
-    getCatImages();
-  }, []);
+  const catsImages = useLoaderData();
 
   return (
     <div>
