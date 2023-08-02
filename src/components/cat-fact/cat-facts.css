@@ -1,0 +1,18 @@
+.cat-facts-container {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.cat-card > img {
+  margin-bottom: 30px;
+  max-width: 300px;
+  height: auto;
+}
+
+.cat-card > p {
+  max-width: 500px;
+}
