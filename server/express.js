@@ -1,14 +1,20 @@
-import React from 'react';
-import App from '../src/components/app';
 import express from 'express';
-import fs from 'fs';
 import path from 'path';
+import React from 'react';
 import { renderToString } from 'react-dom/server';
+import {
+  StaticRouterProvider,
+  createStaticHandler,
+  createStaticRouter,
+} from 'react-router-dom/server';
+import { routes } from '../src/routes';
+import createFetchRequest from './fetchRequest';
+import fs from 'fs';
 
 const app = express();
-// обслуживание статических ресурсов
-
 const port = 8000;
+
+const handler = createStaticHandler(routes);
 
 app.get(
   /\.(js|css|map|ico)$/,
@@ -16,25 +22,29 @@ app.get(
 );
 
 // в ответ на любые другие запросы отправляем 'index.html'
-app.use('*', (_req, res) => {
-  // читаем файл `index.html`
+app.use('*', async (req, res) => {
+  const fetchRequest = createFetchRequest(req);
+  const context = await handler.query(fetchRequest);
+
+  const router = createStaticRouter(handler.dataRoutes, context);
+
   const indexHTML = fs.readFileSync(
     path.resolve(__dirname, '../dist/index.html'),
     { encoding: 'utf8' }
   );
-  const appHTML = renderToString(<App />);
+
+  const appHTML = renderToString(
+    <StaticRouterProvider router={router} context={context} />
+  );
 
   const fullHTML = indexHTML.replace(
     '<div id="app"></div>',
     `<div id="app">${appHTML}</div>`
   );
-  // устанавливаем заголовок и статус
-  res.contentType('text/html');
-  res.status(200);
 
-  return res.send(fullHTML);
+  return res.send('<!DOCTYPE html>' + fullHTML);
 });
-// запускаем сервер на порту 9000
+
 app.listen(port, () => {
   console.log(`Express server started at <http://localhost:${port}>`);
 });
